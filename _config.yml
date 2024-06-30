@@ -1,7 +1,11 @@
-title: Jeremy Rich's Site
+title: Jeremy Richs Site
 email: jeremy.rich@berjak.com.au
 description: >- # this means to ignore newlines until "baseurl:"
+<<<<<<< HEAD
   A site for managing Jeremy Rich's projects and documentation.
+=======
+  A site for managing Jeremy Richs projects and documentation.
+>>>>>>> 825934e (Add minima theme to Gemfile and update _config.yml)
 baseurl: "" # the subpath of your site, e.g. /blog or "" for the root
 url: "http://jeremyrich.github.io/turbo-octo-spork" # the base hostname & protocol for your site
 
