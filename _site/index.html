@@ -1,0 +1,23 @@
+kk<!DOCTYPE html>
+<html>
+<head>
+    <title>Trello Power-Up Iframe</title>
+</head>
+<body>
+    <script>
+        window.TrelloPowerUp.initialize({
+            'board-buttons': function(t, opts) {
+                return [{
+                    text: 'My Button',
+                    callback: function(t) {
+                        return t.popup({
+                            title: 'My Popup',
+                            url: './popup.html'
+                        });
+                    }
+                }];
+            }
+        });
+    </script>
+</body>
+</html>
