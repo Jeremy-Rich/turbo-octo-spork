@@ -28,6 +28,25 @@ jobs:
         with:
           ruby-version: '3.0'
 
+<<<<<<< HEAD
+=======
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Update this to the required Node.js version
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: '6.0.x'  # Update this to the required .NET Core version
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: '17'  # Update this to the required Java version
+          distribution: 'temurin'  # Choose your desired distribution
+
+>>>>>>> update-workflow
       - name: Install dependencies
         run: |
           gem install bundler
@@ -40,15 +59,23 @@ jobs:
         env:
           JEKYLL_ENV: production
 
+<<<<<<< HEAD
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
+=======
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4
+>>>>>>> update-workflow
         with:
           name: github-pages
           path: _site
 
   deploy:
     needs: build
+<<<<<<< HEAD
     runs-on: ubuntu-latest
+=======
+>>>>>>> update-workflow
 
     steps:
       - name: Deploy to GitHub Pages
