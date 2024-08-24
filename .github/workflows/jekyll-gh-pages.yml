@@ -35,6 +35,13 @@ jobs:
         uses: actions/checkout@v2  
       - name: Build  
         run: bundle exec jekyll build
+jobs:  
+  build:  
+    steps:  
+      - name: Checkout code  
+        uses: actions/checkout@v2  
+      - name: Build  
+        run: bundle exec jekyll build
 =======
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
