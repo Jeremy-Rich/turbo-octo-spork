@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     
     strategy:
@@ -42,7 +41,6 @@ jobs:
         working-directory: psychic-octo-frontend
         run: npm test
 
-      # Optional: Add steps for deployment or artifact generation
       - name: Build Frontend
         working-directory: psychic-octo-frontend
         run: npm run build  # Assuming you have a build script
