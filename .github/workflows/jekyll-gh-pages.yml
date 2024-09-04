@@ -1,75 +1,54 @@
-name: Deploy Jekyll Site on GitHub Pages
+name: CI
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [14, 16, 18]  # Testing across different Node.js versions
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          ruby-version: '3.0'
+          node-version: ${{ matrix.node-version }}
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4
+      - name: Install backend dependencies
+        working-directory: psychic-octo-backend
+        run: npm install  # Ensure you're using the correct package manager
+
+      - name: Run backend tests
+        working-directory: psychic-octo-backend
+        run: npm test
+
+      - name: Install frontend dependencies
+        working-directory: psychic-octo-frontend
+        run: npm install  # Ensure you're using the correct package manager
+
+      - name: Run frontend tests
+        working-directory: psychic-octo-frontend
+        run: npm test
+
+      # Optional: Add steps for deployment or artifact generation
+      - name: Build Frontend
+        working-directory: psychic-octo-frontend
+        run: npm run build  # Assuming you have a build script
+
+      - name: Upload Frontend Build
+        uses: actions/upload-artifact@v2
         with:
-          node-version: '20'  # Update this to the required Node.js version
-
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v4.0.0
-        with:
-          dotnet-version: '6.0.x'  # Update this to the required .NET Core version
-
-      - name: Setup Java JDK
-        uses: actions/setup-java@v4.2.1
-        with:
-          java-version: '17'  # Update this to the required Java version
-          distribution: 'temurin'  # Choose your desired distribution
-
-      - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle install
-        env:
-          GITHUB_PAGES: true
-
-      - name: Build with Jekyll
-        run: bundle exec jekyll build
-        env:
-          JEKYLL_ENV: production
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-pages
-          path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages
+          name: frontend-build
+          path: psychic-octo-frontend/dist  # Adjust as necessary based on your build output location
